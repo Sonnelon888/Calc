@@ -3,6 +3,10 @@ import utils.Init;
 import static utils.InputUserData.*;
 import static utils.OutputUserData.*;
 
+/**
+ * главный метод программы, также содержащий логику
+ * выбора подпрограммы для выполнения
+ */
 public class Main {
     public static void main(String[] args) {
         boolean process = true;
@@ -20,6 +24,10 @@ public class Main {
                         break;
                     case 3:
                         printArrayRandomsValue();
+                        process = false;
+                        break;
+                    case 4:
+                        printWordCounterResult();
                         process = false;
                         break;
                 }

@@ -7,6 +7,7 @@ import static java.lang.String.format;
 
 public class ArrayRandoms {
 
+    // Метод генерирует массив с размерностью 20 и заполняемый рандомными значениями от -10 до 10
     private static Integer[] genArray() {
         Integer[] values = new Integer[20];
         for (int i = 0; i < values.length; i++) {
@@ -17,6 +18,9 @@ public class ArrayRandoms {
         return values;
     }
 
+    /**
+     * Метод, который возвращает максимальное негативное значение массива
+     */
     private static Integer findMaxNegativeIndex(Integer[] values) {
         return Arrays.stream(values)
                 .filter(i -> i < 0)
@@ -24,6 +28,9 @@ public class ArrayRandoms {
                 .orElse(0);
     }
 
+    /**
+     * Метод, который возвращает минимальное позитивное значение массива
+     */
     private static Integer findMinPositiveIndex(Integer[] values) {
         return Arrays.stream(values).filter(i -> i > 0)
                 .sorted()
@@ -31,6 +38,11 @@ public class ArrayRandoms {
                 .orElse(0);
     }
 
+    /**
+     * В данном методе реализована команда запуска подпрограммы
+     * по выполнению задачи с заменой минимального позитивного
+     * и максимального негативного значения в сгенерированном массиве
+     */
     public static String runRandomArrays() {
         Integer[] result = genArray();
         int firstReplaced = findMaxNegativeIndex(result);

@@ -7,18 +7,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static java.lang.String.format;
 import static utils.Init.getProperty;
 
-
+/**
+ * Утилитарный класс с методами, используемыми для получения пользовательского ввода
+ */
 public class InputUserData {
     private boolean repeat;
     private Sign operationValue;
     private static boolean nextIteration;
     private static Double firstUserValue;
     private static Double secondUserValue;
-    private final Integer[] numOfOperate = {1, 2, 3, 4};
     private static final String functionRequest =
             getProperty("function.value.request");
     private static final String firstRequest =
@@ -40,11 +42,15 @@ public class InputUserData {
     private BufferedReader reader =
             new BufferedReader(new InputStreamReader(System.in));
 
+    public static String getArgumentExceprion() {
+        return argumentExceprion;
+    }
+
     public static boolean isNextIteration() {
         return nextIteration;
     }
 
-    public static void setNextIteration(boolean nextIteration) {
+    private static void setNextIteration(boolean nextIteration) {
         InputUserData.nextIteration = nextIteration;
     }
 
@@ -72,17 +78,23 @@ public class InputUserData {
         this.operationValue = operationValue;
     }
 
+    /**
+     * Метод для получения первого аргумента, используемого в калькуляторе
+     */
     public void readfirstValue() {
         setFirstUserValue(readDoubleValue(firstRequest));
     }
 
+    /**
+     * Метод для получения второго аргумента, используемого в калькуляторе
+     */
     public void readSecondValue() {
         repeat = true;
         while (repeat) {
             try {
                 setSecondUserValue(readDoubleValue(secondRequest));
-                if (getOperationValue() == Sign.DIV
-                        && getSecondUserValue() == 0) {
+                if (getOperationValue() == Sign.DIV                     //Проверка ввода второго аргумета
+                        && getSecondUserValue() == 0) {                 //!= 0 при выполнении деления
                     throw new IllegalArgumentException();
                 }
                 repeat = false;
@@ -92,39 +104,45 @@ public class InputUserData {
         }
     }
 
+    /**
+     * Метод для получения номера выполняемой операции, используемой в калькуляторе
+     */
     public void readOperatiobValue() {
         repeat = true;
         while (repeat) {
             try {
                 Integer value = readDoubleValue(operationRequest).intValue();
-                if (!Arrays.asList(numOfOperate).contains(value)) {
-                    throw new IllegalArgumentException();
-                }
                 setOperationValue(Arrays.stream(Sign.values())
                         .filter
-                                (val -> val.getNumber().equals(value))
+                                (val -> val.getNumber().equals(value)) // Проверка на наличие введённой операции
                         .findFirst()
                         .orElseThrow());
                 repeat = false;
-            } catch (IllegalArgumentException e) {
+            } catch (NoSuchElementException e) {
                 System.out.println(operationException);
             }
         }
     }
-
+    /**
+     * Метод для получения пользовательского ввода
+     */
     private String takeUserData() throws IOException {
         return reader.readLine().replaceAll(",", ".");
     }
 
+    /**
+     * Метод для получения от пользователя информации
+     * о необходимости выполнения повторной операции
+     */
     public static void repeat() {
         boolean repeat = true;
         String userValue = null;
         InputUserData in = new InputUserData();
         String question = getProperty("repeat.value.request");
-        List<String> positiveSamples = Arrays.asList(
-                getProperty("positive.samples").split(","));
-        List<String> negativeSamples = Arrays.asList(
-                getProperty("negative.samples").split(","));
+        List<String> positiveSamples = Arrays.asList(                   //Настраиваемый список примером, которые
+                getProperty("positive.samples").split(","));         //будут восприняты как положительный ответ
+        List<String> negativeSamples = Arrays.asList(                   //Настраиваемый список примером, которые
+                getProperty("negative.samples").split(","));         //будут восприняты как негативный ответ
         while (repeat) {
             try {
                 System.out.println(question);
@@ -149,9 +167,12 @@ public class InputUserData {
         }
     }
 
+    /**
+     * Метод для получения от пользователя массива чисел
+     */
     public String[] getArrayFromUser() {
         repeat = true;
-        int arrayLength = readDoubleValue(arraylengthRequest).intValue();
+        int arrayLength = readDoubleValue(arraylengthRequest).intValue(); //получение информации о колличестве чисел
         String[] line = new String[arrayLength];
         while (repeat) {
             try {
@@ -168,6 +189,9 @@ public class InputUserData {
         return line;
     }
 
+    /**
+     * Метод для получения от пользователя числового значения в формате double
+     */
     private Double readDoubleValue(String message) {
         repeat = true;
         double result = 0.0;
@@ -184,8 +208,11 @@ public class InputUserData {
         return result;
     }
 
+    /**
+     * Метод для получения номера запускаемой подпрограммы
+     */
     public static Integer takeOperationCase() {
-        Integer[] checkedValues = {1, 2, 3};
+        Integer[] checkedValues = {1, 2, 3, 4};
         Integer value = 0;
         boolean repeat = true;
         while (repeat) {
@@ -202,5 +229,25 @@ public class InputUserData {
             repeat = false;
         }
         return value;
+    }
+
+    /**
+     * Метод для получения от пользователя пути к файлу,
+     * который необходимо обработать
+     */
+    public String readFilePath() {
+        repeat = true;
+        String result = "";
+        while (repeat) {
+            try {
+                System.out.println("Введите путь к файлу:");
+                result = takeUserData();
+                repeat = false;
+            } catch (Exception | Error e) {
+                System.out.println(argumentExceprion);
+            }
+        }
+        repeat = true;
+        return result;
     }
 }

@@ -1,10 +1,15 @@
 package utils;
 
+import static WordCounter.WordCounter.runWordCounter;
 import static arrayMax.ArrayMaxFinder.runMaxArrayValue;
 import static calc.Calc.runCalc;
 import static randomsInArray.ArrayRandoms.runRandomArrays;
 import static utils.Init.getProperty;
 
+/**
+ * В данном классе реализованы методы с выводм информации
+ * в консоль по каждой из подпрограмм
+ */
 public class OutputUserData {
 
     public static void printCalcResult() {
@@ -15,7 +20,11 @@ public class OutputUserData {
         System.out.println("Результат: ".concat(runMaxArrayValue()));
     }
 
-    public static void printArrayRandomsValue(){
+    public static void printArrayRandomsValue() {
         System.out.println("Результат: ".concat(runRandomArrays()));
+    }
+
+    public static void printWordCounterResult() {
+        runWordCounter();
     }
 }

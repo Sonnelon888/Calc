@@ -5,6 +5,10 @@ import calc.operations.Division;
 import calc.operations.Multiplication;
 import calc.operations.Subtraction;
 
+/**
+ * В данном enum перечисляются возможные операции для калькулятора,
+ * так же определены выполняемые действия
+ */
 public enum Sign {
 
     ADD(1) {

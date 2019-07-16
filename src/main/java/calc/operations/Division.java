@@ -2,7 +2,9 @@ package calc.operations;
 
 
 import calc.interfaces.Operation;
-
+/**
+ * Класс реализации функционала по делению аргументов
+ */
 public class Division implements Operation {
 
     public static Double execute() {

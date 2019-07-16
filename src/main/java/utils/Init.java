@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Properties;
 
+/**
+ * Инициализирующий утилитарный класс,
+ * необходимый для получения настраиваемых значений из переменных среды
+ */
 public class Init {
     private static Properties properties = new Properties();
 
@@ -19,7 +23,7 @@ public class Init {
         }
     }
 
-    public static String getProperty(String value) {
+    static String getProperty(String value) {
         return properties.getProperty(value);
     }
 }
